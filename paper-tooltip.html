@@ -322,22 +322,30 @@ Custom property | Description | Default
         // TODO(noms): This should use IronFitBehavior if possible.
         if (this.fitToVisibleBounds) {
           // Clip the left/right side.
-          if (tooltipLeft + thisRect.width > window.innerWidth) {
-            this.style.right = '0px';
+          if (tooltipLeft + parentRect.left < 0 ) {
+            this.style.left = `${-parentRect.left + 4}px`;
+            this.style.right = 'auto';
+          } else if (tooltipLeft + parentRect.left + thisRect.width > window.innerWidth) {
+            const parentRight = window.innerWidth - (parentRect.left + parentRect.width);
+            this.style.right = `${-parentRight + 4}px`;
             this.style.left = 'auto';
           } else {
-            this.style.left = Math.max(0, tooltipLeft) + 'px';
+            this.style.left = tooltipLeft + 'px';
             this.style.right = 'auto';
           }
 
-          // Clip the top/bottom side.
-          if (tooltipTop + thisRect.height > window.innerHeight) {
-            this.style.bottom = '0px';
-            this.style.top = 'auto';
-          } else {
-            this.style.top = Math.max(0, tooltipTop) + 'px';
-            this.style.bottom = 'auto';
-          }
+          // // Clip the top/bottom side.
+          // if (tooltipTop + thisRect.height > window.innerHeight) {
+          //   console.log(3);
+          //   this.style.bottom = '0px';
+          //   this.style.top = 'auto';
+          // } else {
+          //   console.log(4);
+          //   this.style.top = Math.max(0, tooltipTop) + 'px';
+          //   this.style.bottom = 'auto';
+          // }
+
+          this.style.top = tooltipTop + 'px';
         } else {
           this.style.left = tooltipLeft + 'px';
           this.style.top = tooltipTop + 'px';
